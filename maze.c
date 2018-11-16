@@ -8,11 +8,11 @@
  * ghost box, the starting ghost positions, and the player/fruit
  * position:
  *
- *			q->D<-e
- *			|+++++|
- *			|GGGG+|
- *			z-----c
- *			   P
+ *      q->D<-e
+ *      |+++++|
+ *      |GGGG+|
+ *      z-----c
+ *         P
  *
  *
  * Most of the characters in the maze data are used as indeces into
@@ -21,114 +21,114 @@
  */
 
 static mazedata   mazes[] = {
-		{ "q---------w---------e",
-		  "|         |         |",
-		  "|O[-] [w] | [-] [-]O|",
-		  "|      |  |         |",
-		  "a-] [e v [x] [] ^ ^ |",
-		  "|    |          | | |",
-		  "| tu | q->D<-e [c v |",
-		  "| gj v |+++++|      |",
-		  "| gj   |GGGG+| tyyu |",
-		  "| bm ^ z-----c bnnm |",
-		  "|    |    P         |",
-		  "a-] [c [--w--] ^ o [d",
-		  "|         |    |    |",
-		  "|O[-----] v [--x--]O|",
-		  "|                   |",
-		  "z-------------------c" },
+    { "q---------w---------e",
+      "|         |         |",
+      "|O[-] [w] | [-] [-]O|",
+      "|      |  |         |",
+      "a-] [e v [x] [] ^ ^ |",
+      "|    |          | | |",
+      "| tu | q->D<-e [c v |",
+      "| gj v |+++++|      |",
+      "| gj   |GGGG+| tyyu |",
+      "| bm ^ z-----c bnnm |",
+      "|    |    P         |",
+      "a-] [c [--w--] ^ o [d",
+      "|         |    |    |",
+      "|O[-----] v [--x--]O|",
+      "|                   |",
+      "z-------------------c" },
 
-		{ "q---------w---------e",
-		  "|         |         |",
-		  "|O[] q--] v [--e []O|",
-		  "|    |         |    |",
-		  "| tu v [-----] v tu |",
-		  "| gj             gj |",
-		  "| gj ^ q->D<-e ^ gj |",
-		  "| bm | |+++++| | bm |",
-		  "|    | |GGGG+| |    |",
-		  "| [] v z-----c v tu |",
-		  "|         P      gj |",
-		  "a--] ^ [-----] ^ bm |",
-		  "|    |         |    |",
-		  "|O[--x--] ^ [--x--]O|",
-		  "|         |         |",
-		  "z---------x---------c" },
+    { "q---------w---------e",
+      "|         |         |",
+      "|O[] q--] v [--e []O|",
+      "|    |         |    |",
+      "| tu v [-----] v tu |",
+      "| gj             gj |",
+      "| gj ^ q->D<-e ^ gj |",
+      "| bm | |+++++| | bm |",
+      "|    | |GGGG+| |    |",
+      "| [] v z-----c v tu |",
+      "|         P      gj |",
+      "a--] ^ [-----] ^ bm |",
+      "|    |         |    |",
+      "|O[--x--] ^ [--x--]O|",
+      "|         |         |",
+      "z---------x---------c" },
 
-		{ "q-------------------e",
-		  "|                   |",
-		  "|O[--] ^ [-] ^ [--]O|",
-		  "|      |     |      |",
-		  "a--] [-x-] [-x-] [--d",
-		  "|                   |",
-		  "| tu ^ q->D<-e ^ tu |",
-		  "| gj | |+++++| | gj |",
-		  "| gj | |GGGG+| | gj |",
-		  "| bm v z-----c v bm |",
-		  "|         P         |",
-		  "| [-] q-] ^ [-e [-e |",
-		  "|     |   |   |   | |",
-		  "|O[-] | [-x-] | o vO|",
-		  "|     |       |     |",
-		  "z-----x-------x-----c" },
+    { "q-------------------e",
+      "|                   |",
+      "|O[--] ^ [-] ^ [--]O|",
+      "|      |     |      |",
+      "a--] [-x-] [-x-] [--d",
+      "|                   |",
+      "| tu ^ q->D<-e ^ tu |",
+      "| gj | |+++++| | gj |",
+      "| gj | |GGGG+| | gj |",
+      "| bm v z-----c v bm |",
+      "|         P         |",
+      "| [-] q-] ^ [-e [-e |",
+      "|     |   |   |   | |",
+      "|O[-] | [-x-] | o vO|",
+      "|     |       |     |",
+      "z-----x-------x-----c" },
 
-		{ "q-------------------e",
-		  "|                   |",
-		  "|O[--] ^ [-] ^ [--]O|",
-		  "|      |     |      |",
-		  "a-] tu z-] [-c tu [-d",
-		  "|   gj         gj   |",
-		  "| ^ gj q->D<-e gj ^ |",
-		  "| | bm |+++++| bm | |",
-		  "| |    |GGGG+|    | |",
-		  "| v [e z-----c q] v |",
-		  "|    |    P    |    |",
-		  "a--] v [-----] v [--d",
-		  "|                   |",
-		  "|O[--] ^ [-] ^ [--]O|",
-		  "|      |     |      |",
-		  "z------x-----x------c" },
+    { "q-------------------e",
+      "|                   |",
+      "|O[--] ^ [-] ^ [--]O|",
+      "|      |     |      |",
+      "a-] tu z-] [-c tu [-d",
+      "|   gj         gj   |",
+      "| ^ gj q->D<-e gj ^ |",
+      "| | bm |+++++| bm | |",
+      "| |    |GGGG+|    | |",
+      "| v [e z-----c q] v |",
+      "|    |    P    |    |",
+      "a--] v [-----] v [--d",
+      "|                   |",
+      "|O[--] ^ [-] ^ [--]O|",
+      "|      |     |      |",
+      "z------x-----x------c" },
 
-		{ "q---------w---------e",
-		  "|         |         |",
-		  "|O^ [w] ^ v ^ [w] ^O|",
-		  "| |  |  |   |  |  | |",
-		  "| z] v [x] [x] v [c |",
-		  "|                   |",
-		  "| [e ^ q->D<-e ^ q] |",
-		  "|  v v |+++++| v v  |",
-		  "a]     |GGGG+|     [d",
-		  "|  ^ ^ z-----c ^ ^  |",
-		  "| [c |    P    | z] |",
-		  "|    z-] [w] [-c    |",
-		  "| tu      |      tu |",
-		  "|Obm [] ^ v ^ [] bmO|",
-		  "|       |   |       |",
-		  "z-------x---x-------c" },
+    { "q---------w---------e",
+      "|         |         |",
+      "|O^ [w] ^ v ^ [w] ^O|",
+      "| |  |  |   |  |  | |",
+      "| z] v [x] [x] v [c |",
+      "|                   |",
+      "| [e ^ q->D<-e ^ q] |",
+      "|  v v |+++++| v v  |",
+      "a]     |GGGG+|     [d",
+      "|  ^ ^ z-----c ^ ^  |",
+      "| [c |    P    | z] |",
+      "|    z-] [w] [-c    |",
+      "| tu      |      tu |",
+      "|Obm [] ^ v ^ [] bmO|",
+      "|       |   |       |",
+      "z-------x---x-------c" },
 
-		{ "q---------w---------e",
-		  "|         |         |",
-		  "|O[-] [-] | [-] [-]O|",
-		  "|         |         |",
-		  "a-] [-] [-x-] [-] [-d",
-		  "|                   |",
-		  "| tyyu q->D<-e tyyu |",
-		  "| bnnm |+++++| bnnm |",
-		  "|      |GGGG+|      |",
-		  "| [-w] z-----c [w-] |",
-		  "|   |     P     |   |",
-		  "| ^ v q-] ^ [-e v ^ |",
-		  "| |   |   |   |   | |",
-		  "|Ov ^ v ^ v ^ v ^ vO|",
-		  "|   |   |   |   |   |",
-		  "z---x---x---x---x---c" } };
+    { "q---------w---------e",
+      "|         |         |",
+      "|O[-] [-] | [-] [-]O|",
+      "|         |         |",
+      "a-] [-] [-x-] [-] [-d",
+      "|                   |",
+      "| tyyu q->D<-e tyyu |",
+      "| bnnm |+++++| bnnm |",
+      "|      |GGGG+|      |",
+      "| [-w] z-----c [w-] |",
+      "|   |     P     |   |",
+      "| ^ v q-] ^ [-e v ^ |",
+      "| |   |   |   |   | |",
+      "|Ov ^ v ^ v ^ v ^ vO|",
+      "|   |   |   |   |   |",
+      "z---x---x---x---x---c" } };
 
 
 void read_maze(num)
 int num;
 {
    int          i, xx, yy;
-   XRectangle	power_rect[MAX_POWER_DOTS], fruit_rect;
+   XRectangle  power_rect[MAX_POWER_DOTS], fruit_rect;
 
    for (i = 0; i < BLOCK_HEIGHT; i++)
       strncpy(md[i], mazes[num][i], BLOCK_WIDTH);
@@ -149,7 +149,7 @@ int num;
 
             case ' ':
 
-		/* wherever there's a space, we'll put a dot */
+                /* wherever there's a space, we'll put a dot */
                 md[yy][xx] = '\0';
                 dd[yy][xx] = '.';
                 numdots++;
@@ -157,7 +157,7 @@ int num;
 
             case 'O':
 
-		/* there is a power-dot here */
+                /* there is a power-dot here */
                 md[yy][xx] = '\0';
                 if (powerdots < MAX_POWER_DOTS) {
                    dd[yy][xx] = 'O';
@@ -175,48 +175,48 @@ int num;
 
             case 'P':
 
-		/*
-		 * This is the starting position of the player, as well
-		 * as the location of the fruit when it appears.
-		 */
+                /*
+                 * This is the starting position of the player, as well
+                 * as the location of the fruit when it appears.
+                 */
                 md[yy][xx] = '\0';
                 pac_sx = fruit_x = xx * GHOST_SIZE;
                 pac_sy = fruit_y = yy * GHOST_SIZE;
-		fruit_rect.x = fruit_x - 2;
-		fruit_rect.y = fruit_y;
-		fruit_rect.width = FRUIT_WIDTH;
-		fruit_rect.height = FRUIT_HEIGHT;
+                fruit_rect.x = fruit_x - 2;
+                fruit_rect.y = fruit_y;
+                fruit_rect.width = FRUIT_WIDTH;
+                fruit_rect.height = FRUIT_HEIGHT;
                 break;
 
             case 'G':
 
-		/*
-		 * This is the starting position of a ghost.  It had
-		 * better be somewhere at the bottom of the ghost box,
-		 * and not in the rightmost position.  This is because
-		 * initially, the ghosts will be sent to the right.
-		 */
+                /*
+                 * This is the starting position of a ghost.  It had
+                 * better be somewhere at the bottom of the ghost box,
+                 * and not in the rightmost position.  This is because
+                 * initially, the ghosts will be sent to the right.
+                 */
                 md[yy][xx] = '\0';
                 if (num_ghosts < MAX_GHOSTS) {
                    ghost_sx[num_ghosts] = xx * GHOST_SIZE;
                    ghost_sy[num_ghosts] = yy * GHOST_SIZE;
-		   num_ghosts++;
+                   num_ghosts++;
                 }
                 break;
 
             case 'D':
 
-		/*
-		 * This is the position of the ghost box door.  It
-		 * had better be placed correctly.
-		 */
+                /*
+                 * This is the position of the ghost box door.  It
+                 * had better be placed correctly.
+                 */
                 door_x = xx;
                 door_y = yy;
                 break;
 
             case '+':
 
-		/* this space should be left blank */
+                /* this space should be left blank */
                 md[yy][xx] = '\0';
                 break;
 
@@ -261,8 +261,8 @@ int num;
  */
 void position_players()
 {
-   int 		i;
-   XRectangle	ghost_rect[MAX_GHOSTS], pac_rect;
+   int         i;
+   XRectangle  ghost_rect[MAX_GHOSTS], pac_rect;
 
    for (i = 0; i < num_ghosts; i++) {
       ghost_x[i] = ghost_sx[i];

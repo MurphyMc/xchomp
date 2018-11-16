@@ -13,7 +13,7 @@ void demo_seq()
    char            string[50], c_buf;
    XEvent          event;
    Bool            done = False;
-   long		   sc;
+   long            sc;
    XComposeStatus  status;
 
    /* clear the entire window and the map */
@@ -127,11 +127,11 @@ void demo_seq()
       if (event.xany.window != window) continue;
       switch (event.type) {
          case KeyPress:
-	    XLookupString((XKeyEvent *) &event, &c_buf, 1, &last_key, &status);
-	    if ((last_key == XK_q) || (last_key == XK_Q))
-	       do_exit();
-	    XFillRectangle(display, window, clearGC, 0, 0, WIN_WIDTH,
-	       WIN_HEIGHT + GHOST_SIZE + 2);
+            XLookupString((XKeyEvent *) &event, &c_buf, 1, &last_key, &status);
+            if ((last_key == XK_q) || (last_key == XK_Q))
+               do_exit();
+            XFillRectangle(display, window, clearGC, 0, 0, WIN_WIDTH,
+               WIN_HEIGHT + GHOST_SIZE + 2);
             XSync(display, True);
             done = True;
             break;

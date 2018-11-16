@@ -102,9 +102,9 @@ void finish()
 /* the paused-game sequence */
 Bool pause_seq()
 {
-   XEvent		event;
-   char			c_buf;
-   XComposeStatus	status;
+   XEvent         event;
+   char           c_buf;
+   XComposeStatus status;
 
    XCopyPlane(display, pause, window, fullcopyGC, 0, 0, TITLE_WIDTH,
       TITLE_HEIGHT, 12 * GHOST_SIZE, WIN_HEIGHT + 1, 1);
@@ -114,23 +114,23 @@ Bool pause_seq()
       XNextEvent(display, &event);
       if (event.xany.window != window) continue;
       switch (event.type) {
-	 case KeyPress:
-	    XLookupString((XKeyEvent *) &event, &c_buf, 1, &last_key, &status);
-	    if ((last_key == XK_q) || (last_key == XK_Q))
-	       do_exit();
-	    if ((last_key == XK_r) || (last_key == XK_R))
-	       return False;
-	    display_title();
-	    XSync(display, False);
-	    return True;
-	 case Expose:
-	    XCopyArea(display, map, window, fullcopyGC, 0, 0,
-	       WIN_WIDTH, WIN_HEIGHT, 0, 0);
-	    restore_status();
-   	    XCopyPlane(display, pause, window, fullcopyGC, 0, 0, TITLE_WIDTH,
+         case KeyPress:
+            XLookupString((XKeyEvent *) &event, &c_buf, 1, &last_key, &status);
+            if ((last_key == XK_q) || (last_key == XK_Q))
+               do_exit();
+            if ((last_key == XK_r) || (last_key == XK_R))
+               return False;
+            display_title();
+            XSync(display, False);
+            return True;
+         case Expose:
+            XCopyArea(display, map, window, fullcopyGC, 0, 0,
+               WIN_WIDTH, WIN_HEIGHT, 0, 0);
+            restore_status();
+               XCopyPlane(display, pause, window, fullcopyGC, 0, 0, TITLE_WIDTH,
                TITLE_HEIGHT, 12 * GHOST_SIZE, WIN_HEIGHT + 1, 1);
-	    break;
-	 default: break;
+            break;
+         default: break;
       }
    }
 }
@@ -166,9 +166,9 @@ void do_usleep(int usecs)
 
 void check_normal_events()
 {
-   char			c_buf;
-   XEvent		event;
-   XComposeStatus	status;
+   char            c_buf;
+   XEvent          event;
+   XComposeStatus  status;
 
    while (QLength(display) > 0) {
       XNextEvent(display, &event);
@@ -189,7 +189,7 @@ void check_normal_events()
             if (!pause_seq())
                longjmp(jb_start, 1);
             break;
-	 case PropertyNotify:
+         case PropertyNotify:
             if (event.xproperty.atom != DEC_icon_atom) break;
             while (True) {
                XNextEvent(display, &event);

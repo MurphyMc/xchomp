@@ -59,7 +59,7 @@ void control_pac()
          default: break;
       }
       check_dots();
-      pac_x += pac_ix;	pac_y += pac_iy;
+      pac_x += pac_ix; pac_y += pac_iy;
       XOffsetRegion(pac_region, pac_ix, pac_iy);
       return;
    }
@@ -94,9 +94,9 @@ void check_dots()
    register char        *pi;
    register int         i;
    register funcptr     driver;
-   static long		fval[] = { 100, 200, 300, 300, 500, 700, 700,
-				   1000, 1000, 2000, 2000, 3000, 3000,
-				   5000 };
+   static long          fval[] = { 100, 200, 300, 300, 500, 700, 700,
+                                   1000, 1000, 2000, 2000, 3000, 3000,
+                                   5000 };
 
    /*
     * The following line produces a pointer to the character in the
@@ -186,9 +186,9 @@ void check_dots()
        * size as the player, as in the case of dots and power-dots.
        */
       XCopyPlane(display, fval_pix[plevel], save, fullcopyGC,
-	 0, 0, FRUIT_WIDTH, FRUIT_HEIGHT, fruit_x - 2, fruit_y, 1);
+         0, 0, FRUIT_WIDTH, FRUIT_HEIGHT, fruit_x - 2, fruit_y, 1);
       XCopyArea(display, save, map, fullcopyGC, fruit_x - 2,
-	 fruit_y, FRUIT_WIDTH, FRUIT_HEIGHT, fruit_x - 2, fruit_y);
+         fruit_y, FRUIT_WIDTH, FRUIT_HEIGHT, fruit_x - 2, fruit_y);
       XUnionRegion(region[cr], fruit_region, region[cr ^ 1]);
       XSetRegion(display, copyGC, region[cr ^= 1]);
 
@@ -362,7 +362,7 @@ void go_home(i)
 register int i;
 {
    int            xx = ghost_x[i], yy = ghost_y[i];
-   int		  pmx = door_x << 4, pmy = (door_y - 1) << 4;
+   int            pmx = door_x << 4, pmy = (door_y - 1) << 4;
    register char  *pc = md[yy >> 4] + (xx >> 4);
    register int   dir = 0x0f, sense;
    register int   *px = ghost_ix + i, *py = ghost_iy + i;
@@ -469,24 +469,24 @@ register int i;
    if (xx == door_x) {
       if (yy == (door_y - 1)) {
 
-	 /*
-	  * The ghost is now completely outside the box; we will
-	  * change its driver so that it follows the player around
-	  */
+         /*
+          * The ghost is now completely outside the box; we will
+          * change its driver so that it follows the player around
+          */
          drive[i] = follow;
          follow(i);
          return;
       }
       else if (yy == (door_y + 1))
 
-	 /*
-	  * The ghost is directly underneath the door to the
-	  * outside.  We'll use the number of loops it has made
-	  * inside the box, as well as a bit of randomness,
-	  * to determine whether or not to send it out.
-	  */
+         /*
+          * The ghost is directly underneath the door to the
+          * outside.  We'll use the number of loops it has made
+          * inside the box, as well as a bit of randomness,
+          * to determine whether or not to send it out.
+          */
          if ((++loops[i]) > 1)
-	    if ((random() & 0x0f) > 7) {
+            if ((random() & 0x0f) > 7) {
                *px = 0, *py = (-2);
                return;
             }

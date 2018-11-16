@@ -6,11 +6,11 @@ int main(argc, argv)
 int argc;
 char *argv[];
 {
-   XEvent		event;
-   int			dummy;
-   XCharStruct		chars;
-   unsigned long	event_mask;
-   int                  fdelay = 0;
+   XEvent         event;
+   int            dummy;
+   XCharStruct    chars;
+   unsigned long  event_mask;
+   int            fdelay = 0;
 
    /* User may set FRAME_DELAY from the command line */
    if (argc >= 2) {
@@ -18,12 +18,12 @@ char *argv[];
    }
 
    /* open the display */
-   display 	= XOpenDisplay(NULL);
-   screen 	= DefaultScreen(display);
-   root		= DefaultRootWindow(display);
-   depth 	= DefaultDepth(display, screen);
-   black 	= BlackPixel(display, screen);
-   white 	= WhitePixel(display, screen);
+   display = XOpenDisplay(NULL);
+   screen  = DefaultScreen(display);
+   root    = DefaultRootWindow(display);
+   depth   = DefaultDepth(display, screen);
+   black   = BlackPixel(display, screen);
+   white   = WhitePixel(display, screen);
 
    /* get a font */
    font = XLoadFont(display, "fixed");
@@ -86,7 +86,7 @@ void play_game(int fdelay) {
    char            c_buf;
    XComposeStatus  status;
    XRectangle      xrect;
-   XEvent	   event;
+   XEvent          event;
 
    static int      flash_ticks[] = {
                       13, 8, 4, 1, 13, 8, 4, 1,
@@ -202,7 +202,7 @@ void play_game(int fdelay) {
                XCopyArea(display, map, window, fullcopyGC, 0, 0,
                   WIN_WIDTH, WIN_HEIGHT, 0, 0);
                restore_status();
-	       display_title();
+               display_title();
                break;
             default: break;
          }

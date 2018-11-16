@@ -17,7 +17,7 @@ long incr;
 
    if (score < 10000L) {
       if ((sc = score += incr) >= 10000)
-	 (void)set_lives(lives + 1);
+         (void)set_lives(lives + 1);
    }
    else sc = score += incr;
 
@@ -62,9 +62,9 @@ Bool slowly;
 
    while (xx < 11) {
       if (slowly)
-	 usleep(100000L);
+         usleep(100000L);
       XCopyPlane(display, fruit_pix[(i > 13) ? 13 : i], window, fullcopyGC,
-	 0, 0, GHOST_SIZE, GHOST_SIZE, (xx++) * GHOST_SIZE, WIN_HEIGHT + 1, 1);
+         0, 0, GHOST_SIZE, GHOST_SIZE, (xx++) * GHOST_SIZE, WIN_HEIGHT + 1, 1);
       --i;
       XSync(display, False);
    }

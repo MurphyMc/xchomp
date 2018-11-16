@@ -14,7 +14,7 @@ int argc;
 char *argv[];
 {
    XSizeHints   hints;
-   XWMHints	xwmh;
+   XWMHints     xwmh;
    char         *name = "xchomp";
 
    window = XCreateSimpleWindow(display, root, 0, 0, WIN_WIDTH,
@@ -178,7 +178,7 @@ void create_maze_symbols()
                             mo_bits, mq_bits, mright_bits, ms_bits, mt_bits,
                             mu_bits, mup_bits, mvert_bits, mw_bits, mx_bits,
                             my_bits, mz_bits, mdot_bits, mpower_bits,
-			    mdoor_bits, mless_bits, mgreat_bits };
+                            mdoor_bits, mless_bits, mgreat_bits };
 
    empty = XCreatePixmapFromBitmapData(display, root, mempty_bits,
       GHOST_SIZE, GHOST_SIZE, 1, 0, 1);
@@ -292,7 +292,7 @@ void create_GCs()
    gcv.function           = GXcopy;
    gcv.font               = font;
    gcv.graphics_exposures = False;
-   gcv.stipple		  = demo_back;
+   gcv.stipple            = demo_back;
    fullcopyGC             = XCreateGC(display, root, mask | GCStipple, &gcv);
 
    /* context for overlaying; used for animation */
@@ -301,7 +301,7 @@ void create_GCs()
    gcv.function           = normal ? GXor : GXand;
    gcv.font               = font;
    gcv.graphics_exposures = False;
-   gcv.stipple		  = demo_gray;
+   gcv.stipple            = demo_gray;
    orGC                   = XCreateGC(display, root, mask | GCStipple, &gcv);
 
    /* context for clearing */
@@ -389,8 +389,8 @@ void clear_maps()
 
 void create_regions()
 {
-   XRectangle	full_rect;
-   int		i;
+   XRectangle  full_rect;
+   int         i;
 
    fruit_region = XCreateRegion();
    power_region = XCreateRegion();
