@@ -407,7 +407,7 @@ register int i;
    if (xx == pmx) {
       if ((yy >= pmy) && (yy <= (pmy + 48))) {
          if (yy == pmy) {
-   
+
             /*
              * The ghost is right above the door to the ghost box.
              * We'll send it down into the box.  We're assuming
@@ -418,7 +418,7 @@ register int i;
             *py = 4;
          }
          else if (yy == (pmy + 48)) {
-   
+
             /*
              * The ghost is all the way inside the box.  Here it'll
              * be "reborn" -- its state will be changed to that of a

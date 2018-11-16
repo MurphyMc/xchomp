@@ -60,7 +60,7 @@ char *argv[];
       event_mask |= StructureNotifyMask;
    else event_mask |= PropertyChangeMask;
    XSelectInput(display, window, event_mask);
-   
+
    /* display the window */
    XMapWindow(display, window);
    while (True) {
@@ -78,7 +78,7 @@ char *argv[];
 }
 
 
-/* 
+/*
  * The following function contains the main game loop.
  */
 void play_game(int fdelay) {
