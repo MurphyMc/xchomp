@@ -1,0 +1,40 @@
+
+			Xchomp, Version 1.1
+			-------------------
+
+VERSION 1.1
+
+-- The source code has been cleaned up.  Many variable names have been changed
+   to be more descriptive.  Some comments have been added.
+
+-- The title screen has been improved with a marble background pattern and
+   shadowed letters and panels.  I'd like to thank M. Wade Barnerd for his
+   ideas on this.
+
+-- The ghost box on every maze now has a door indicating that only ghosts
+   can pass through it.
+
+-- The game can now be paused at ANY MOMENT (during death sequences, for
+   example), after which it may be restarted or exited.  The setjmp() and
+   longjmp() functions are used to accomplish this.
+
+-- A bug has been fixed, in which xchomp used to pass groups of intersecting
+   rectangles to XSetClipRectangles().  There is an obscure line in the
+   X Window System Programming Reference which states that this action
+   may lead to undefined results in the graphics output.  I received a
+   message reporting that xchomp did not work on Intergraph workstations
+   because of this bug.  Version 1.1 utilizes the region mechanism to
+   accomplish the clipping.  No major changes in performance have been
+   observed on the machines available here.
+
+-- Some bugs have been fixed in the ghost movement logic which caused
+   eaten ghosts (eyes) to circle around continuously on some levels,
+   never returning to the ghost box.
+
+-- Some other aesthetic changes have been made to the game.
+---
++--------------------+-----------------------+-------------------------------+
+|                    |  Polygen Corporation  |           UUCP:               |
+|  Jerry J. Shekhel  |   Waltham, MA 02254   |  {princeton, mit-eddie,       |
+|                    |    (617) 890-2888     |  bu, sunne}!polygen!jerry     |
++--------------------+-----------------------+-------------------------------+

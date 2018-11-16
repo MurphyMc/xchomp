@@ -1,0 +1,14 @@
+#ifdef BandAidCompiler
+#include BandAidCompiler
+#endif
+
+DEFINES = -DX11
+INCLUDES = -I$(TOP) -I$(TOP)/X11
+DEPLIBS = $(DEPXLIB)
+LOCAL_LIBRARIES = $(XLIB)
+SYS_LIBRARIES = -lm
+
+SRCS = contact.c demo.c drivers.c main.c maze.c props.c resources.c status.c
+OBJS = contact.o demo.o drivers.o main.o maze.o props.o resources.o status.o
+
+ComplexProgramTarget(xchomp)
