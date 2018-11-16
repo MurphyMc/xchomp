@@ -340,13 +340,13 @@ void play_game(int fdelay) {
 
       XSync(display, False);
 
-#ifdef FRAME_DELAY
       if (fdelay > 0) {
          usleep(fdelay);
+#ifdef FRAME_DELAY
       } else {
          usleep(FRAME_DELAY);
-      }
 #endif
+      }
 
    } /* while */
 
