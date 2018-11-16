@@ -81,7 +81,7 @@ char *argv[];
 /* 
  * The following function contains the main game loop.
  */
-void play_game(fdelay) {
+void play_game(int fdelay) {
    register int    i;
    char            c_buf;
    XComposeStatus  status;

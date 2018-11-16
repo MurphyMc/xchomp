@@ -136,7 +136,7 @@ Bool pause_seq()
 }
 
 
-void do_sleep(secs)
+void do_sleep(int secs)
 {
    int i;
 
@@ -147,7 +147,7 @@ void do_sleep(secs)
 }
 
 
-void do_usleep(usecs)
+void do_usleep(int usecs)
 {
    int i, d, r;
 
