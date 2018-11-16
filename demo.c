@@ -139,6 +139,10 @@ void demo_seq()
             XCopyArea(display, map, window, fullcopyGC, 0, 0,
                WIN_WIDTH, WIN_HEIGHT + GHOST_SIZE + 2, 0, 0);
             break;
+         case ClientMessage:
+            if (event.xclient.data.l[0] == wm_delete_window_atom)
+              do_exit();
+            break;
          default: break;
       }
    }

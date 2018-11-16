@@ -130,6 +130,10 @@ Bool pause_seq()
                XCopyPlane(display, pause, window, fullcopyGC, 0, 0, TITLE_WIDTH,
                TITLE_HEIGHT, 12 * GHOST_SIZE, WIN_HEIGHT + 1, 1);
             break;
+         case ClientMessage:
+            if (event.xclient.data.l[0] == wm_delete_window_atom)
+              do_exit();
+            break;
          default: break;
       }
    }
@@ -204,6 +208,10 @@ void check_normal_events()
             XCopyArea(display, map, window, fullcopyGC, 0, 0,
                WIN_WIDTH, WIN_HEIGHT, 0, 0);
             restore_status();
+            break;
+         case ClientMessage:
+            if (event.xclient.data.l[0] == wm_delete_window_atom)
+              do_exit();
             break;
          default: break;
       }

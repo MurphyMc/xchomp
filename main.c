@@ -69,6 +69,10 @@ char *argv[];
       if (event.type == Expose) break;
    }
 
+   /* set up so we can catch window close */
+   wm_delete_window_atom = XInternAtom(display, "WM_DELETE_WINDOW", False);
+   XSetWMProtocols(display, window, &wm_delete_window_atom, 1);
+
    /* go to it */
    play_game(fdelay);
 
@@ -204,6 +208,11 @@ void play_game(int fdelay) {
                restore_status();
                display_title();
                break;
+            case ClientMessage:
+                if (event.xclient.data.l[0] == wm_delete_window_atom) {
+                  return;
+                }
+                break;
             default: break;
          }
       }
