@@ -5,6 +5,23 @@
  * and the ghosts.
  */
 
+void get_dirs (char * pc, int x, int y, int * up, int * down, int * left, int * right)
+{
+  *up = *down = *left = *right = 1;
+
+  if (x <= 0) {
+    *left = *right = 0;
+  }
+  else if (x >= (BLOCK_WIDTH-1)) {
+    *left = *right = 0;
+  }
+  else {
+    *left = pc[-1];
+    *right = pc[1];
+    *up = pc[-BLOCK_WIDTH];
+    *down = pc[BLOCK_WIDTH];
+  }
+}
 
 /*
  * The following function is called explicitly during each animation
@@ -16,6 +33,9 @@ void control_pac()
 {
    register int         xx = pac_x, yy = pac_y, i, dx, dy;
    register char        *pc = md[yy >> 4] + (xx >> 4);
+   int                  up, down, left, right;
+   get_dirs(pc, xx>>4, yy>>4, &up, &down, &left, &right);
+
 
    /* check for a collision */
    for (i = 0; i < num_ghosts; i++) {
@@ -34,27 +54,37 @@ void control_pac()
 
    if (!(xx & 0x0f) && !(yy & 0x0f)) {
       if (pac_ix > 0) {
-         if (pc[1]) pac_ix = 0;
+         if (xx == WIN_WIDTH) {
+            pac_x = -GHOST_SIZE;
+            XOffsetRegion(pac_region, -WIN_WIDTH-GHOST_SIZE, 0);
+         }
+         else if (xx >= WIN_WIDTH-GHOST_SIZE) { }
+         else if (right) pac_ix = 0;
       }
       else if (pac_ix < 0) {
-         if (pc[-1]) pac_ix = 0;
+         if (xx == -GHOST_SIZE) {
+            pac_x = WIN_WIDTH;
+            XOffsetRegion(pac_region, WIN_WIDTH+GHOST_SIZE, 0);
+         }
+         else if (xx <= 0) { }
+         else if (left) pac_ix = 0;
       }
       else if (pac_iy < 0) {
-         if (pc[-BLOCK_WIDTH]) pac_iy = 0;
+         if (up) pac_iy = 0;
       }
-      else if (pc[BLOCK_WIDTH]) pac_iy = 0;
+      else if (down) pac_iy = 0;
       switch (last_key) {
          case XK_Up:
-            if (!pc[-BLOCK_WIDTH]) pac_iy = (-2), pac_ix = 0, pac = upac;
+            if (!up) pac_iy = (-2), pac_ix = 0, pac = upac;
             break;
          case XK_Down:
-            if (!pc[BLOCK_WIDTH]) pac_iy = 2, pac_ix = 0, pac = dpac;
+            if (!down) pac_iy = 2, pac_ix = 0, pac = dpac;
             break;
          case XK_Left:
-            if (!pc[-1]) pac_ix = (-2), pac_iy = 0, pac = lpac;
+            if (!left) pac_ix = (-2), pac_iy = 0, pac = lpac;
             break;
          case XK_Right:
-            if (!pc[1]) pac_ix = 2, pac_iy = 0, pac = rpac;
+            if (!right) pac_ix = 2, pac_iy = 0, pac = rpac;
             break;
          default: break;
       }
@@ -103,6 +133,10 @@ void check_dots()
     * dot information array (dd[]) which corresponds to the player's
     * position on the screen.
     */
+   if (pac_x < 0) return;
+   if (pac_y < 0) return;
+   if (pac_x >= WIN_WIDTH) return;
+   if (pac_y >= WIN_HEIGHT) return;
    pi = dd[pac_y >> 4] + (pac_x >> 4);
 
    /* check for a regular dot */
@@ -226,6 +260,8 @@ register int i;
    register int   dir = 0x0f, sense;
    register int   *px = ghost_ix + i, *py = ghost_iy + i;
    static intm    find[3] = { { 0, 1, 2 }, { 3, 3, 4 }, { 5, 6, 7 } };
+   int            up, down, left, right;
+   get_dirs(pc, xx>>4, yy>>4, &up, &down, &left, &right);
 
    static intm  fxvec[16] = {
                 { 0, 0, 0, 0, 0, 0, 0, 0 },             /* no way to go */
@@ -264,15 +300,28 @@ register int i;
                 { 0, -2, -2, 0, 0, 2, 2, 0 } };         /* any which way */
 
    /* first, find the directions in which this ghost can go */
-   if (pc[1] || (*px < 0)) dir &= ~0x01;
-   if (pc[-1] || (*px > 0)) dir &= ~0x02;
-   if (pc[BLOCK_WIDTH] || (*py < 0)) dir &= ~0x04;
-   if (pc[-BLOCK_WIDTH] || (*py > 0)) dir &= ~0x08;
+   if (right || (*px < 0)) dir &= ~0x01;
+   if (left || (*px > 0)) dir &= ~0x02;
+   if (down || (*py < 0)) dir &= ~0x04;
+   if (up || (*py > 0)) dir &= ~0x08;
 
    /* now choose the new direction for the ghost */
    if ((dir != 0x01) && (dir != 0x02) && (dir != 0x04) && (dir != 0x08)) {
-      if ((random() & 0x0f) > 4)
+      if ((random() & 0x0f) > 4) {
          sense = find[sgn(pac_y - yy) + 1][sgn(pac_x - xx) + 1];
+         if ((dir&0x02) && ((xx>>4) <= 1) && ((pac_x>>4) > BLOCK_WIDTH - BLOCK_WIDTH/3))
+         {
+           *px = -1;
+           *py = 0;
+           return;
+         }
+         else if ((dir&0x01) && ((xx>>4) >= (BLOCK_WIDTH-2)) && ((pac_x>>4) < BLOCK_WIDTH/3))
+         {
+           *px = 1;
+           *py = 0;
+           return;
+         }
+      }
       else sense = random() & 0x07;
       *px = fxvec[dir][sense];
       *py = fyvec[dir][sense];
@@ -297,6 +346,8 @@ register int i;
    register int   dir = 0x0f, sense;
    register int   *px = ghost_ix + i, *py = ghost_iy + i;
    static intm    find[3] = { { 0, 1, 2 }, { 3, 3, 4 }, { 5, 6, 7 } };
+   int            up, down, left, right;
+   get_dirs(pc, xx>>4, yy>>4, &up, &down, &left, &right);
 
    static intm  rxvec[16] = {
                 { 0, 0, 0, 0, 0, 0, 0, 0 },             /* no way to go */
@@ -335,10 +386,10 @@ register int i;
                 { 0, 0, 1, 1, -1, -1, 0, 0 } };         /* any which way */
 
    /* first, find the directions in which this ghost can go */
-   if (pc[1] || (*px < 0)) dir &= ~0x01;
-   if (pc[-1] || (*px > 0)) dir &= ~0x02;
-   if (pc[BLOCK_WIDTH] || (*py < 0)) dir &= ~0x04;
-   if (pc[-BLOCK_WIDTH] || (*py > 0))  dir &= ~0x08;
+   if (right || (*px < 0)) dir &= ~0x01;
+   if (left || (*px > 0)) dir &= ~0x02;
+   if (down || (*py < 0)) dir &= ~0x04;
+   if (up || (*py > 0))  dir &= ~0x08;
 
    /* now choose the new direction for the ghost */
    if ((dir != 0x01) && (dir != 0x02) && (dir != 0x04) && (dir != 0x08)) {
@@ -367,6 +418,8 @@ register int i;
    register int   dir = 0x0f, sense;
    register int   *px = ghost_ix + i, *py = ghost_iy + i;
    static intm    find[3] = { { 0, 1, 2 }, { 3, 3, 4 }, { 5, 6, 7 } };
+   int            up, down, left, right;
+   get_dirs(pc, xx>>4, yy>>4, &up, &down, &left, &right);
 
    static intm  pxvec[16] = {
                 { 0, 0, 0, 0, 0, 0, 0, 0 },             /* no way to go */
@@ -436,10 +489,10 @@ register int i;
    }
 
    /* otherwise, find the directions in which this ghost can go */
-   if (pc[1] || (*px < 0)) dir &= ~0x01;
-   if (pc[-1] || (*px > 0)) dir &= ~0x02;
-   if (pc[BLOCK_WIDTH] || (*py < 0)) dir &= ~0x04;
-   if (pc[-BLOCK_WIDTH] || (*py > 0))  dir &= ~0x08;
+   if (right || (*px < 0)) dir &= ~0x01;
+   if (left || (*px > 0)) dir &= ~0x02;
+   if (down || (*py < 0)) dir &= ~0x04;
+   if (up || (*py > 0))  dir &= ~0x08;
 
    /* now choose the new direction for the ghost */
    if ((dir != 0x01) && (dir != 0x02) && (dir != 0x04) && (dir != 0x08)) {
@@ -465,6 +518,8 @@ register int i;
    register int yy = ghost_y[i] >> 4, xx = ghost_x[i] >> 4;
    char         *pc = md[yy] + xx;
    register int *px = ghost_ix + i, *py = ghost_iy + i;
+   int            up, down, left, right;
+   get_dirs(pc, xx, yy, &up, &down, &left, &right);
 
    if (xx == door_x) {
       if (yy == (door_y - 1)) {
@@ -497,15 +552,15 @@ register int i;
     * box in a circular counterclockwise pattern.
     */
    if (*px > 0) {
-      if (pc[1]) *px = 0, *py = (-2);
+      if (right) *px = 0, *py = (-2);
    }
    else if (*px < 0) {
-      if (pc[-1]) *px = 0, *py = 2;
+      if (left) *px = 0, *py = 2;
    }
    else if (*py > 0) {
-      if (pc[BLOCK_WIDTH]) *px = 2, *py = 0;
+      if (down) *px = 2, *py = 0;
    }
-   else if (pc[-BLOCK_WIDTH]) *px = (-2), *py = 0;
+   else if (up) *px = (-2), *py = 0;
 }
 
 
@@ -521,6 +576,8 @@ register int i;
    register int yy = ghost_y[i] >> 4, xx = ghost_x[i] >> 4;
    char         *pc = md[yy] + xx;
    register int *px = ghost_ix + i, *py = ghost_iy + i;
+   int            up, down, left, right;
+   get_dirs(pc, xx, yy, &up, &down, &left, &right);
 
    if (xx == door_x) {
       if (yy == (door_y - 1)) {
@@ -536,13 +593,13 @@ register int i;
    }
 
    if (*px > 0) {
-      if (pc[1]) *px = 0, *py = (-1);
+      if (right) *px = 0, *py = (-1);
    }
    else if (*px < 0) {
-      if (pc[-1]) *px = 0, *py = 1;
+      if (left) *px = 0, *py = 1;
    }
    else if (*py > 0) {
-      if (pc[BLOCK_WIDTH]) *px = 1, *py = 0;
+      if (down) *px = 1, *py = 0;
    }
-   else if (pc[-BLOCK_WIDTH]) *px = (-1), *py = 0;
+   else if (up) *px = (-1), *py = 0;
 }

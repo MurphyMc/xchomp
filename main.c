@@ -280,6 +280,14 @@ void play_game(int fdelay) {
             (*drive[i])(i);
       for (i = 0; i < num_ghosts; i++) {
          ghost_x[i] += ghost_ix[i];  ghost_y[i] += ghost_iy[i];
+         if (ghost_x[i] <= -GHOST_SIZE) {
+            XOffsetRegion(ghost_region[i], WIN_WIDTH+GHOST_SIZE, 0);
+            ghost_x[i] += WIN_WIDTH+GHOST_SIZE;
+         }
+         else if  (ghost_x[i] >= WIN_WIDTH) {
+            XOffsetRegion(ghost_region[i], -WIN_WIDTH-GHOST_SIZE, 0);
+            ghost_x[i] -= WIN_WIDTH+GHOST_SIZE*1;
+         }
          XOffsetRegion(ghost_region[i], ghost_ix[i], ghost_iy[i]);
       }
 
