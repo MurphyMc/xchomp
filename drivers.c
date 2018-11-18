@@ -186,15 +186,15 @@ void check_dots()
             drive[i] = run;
             contact[i] = eat;
             ghost[i] = gghost;
-            ghost_ix[i] = -ghost_ix[i] / 2;
-            ghost_iy[i] = -ghost_iy[i] / 2;
+            ghost_ix[i] = -(ghost_ix[i]+sgn(ghost_ix[i])) / 2;
+            ghost_iy[i] = -(ghost_iy[i]+sgn(ghost_iy[i])) / 2;
          }
          else if (driver == hover) {
             drive[i] = hover2;
             contact[i] = eat;
             ghost[i] = gghost;
-            ghost_ix[i] /= 2;
-            ghost_iy[i] /= 2;
+            ghost_ix[i] = (ghost_ix[i]+sgn(ghost_ix[i])) / 2;
+            ghost_iy[i] = (ghost_iy[i]+sgn(ghost_iy[i])) / 2;
          }
          else if ((driver == hover2) || (driver == run))
             ghost[i] = gghost;
