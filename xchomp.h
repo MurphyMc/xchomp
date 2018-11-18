@@ -92,6 +92,9 @@ EXTERN int       ascent, descent;
 EXTERN GC  copyGC, orGC, clearGC, invertGC;
 EXTERN GC  powerGC, fullcopyGC, bitmapGC;
 
+/* colors */
+EXTERN XColor    colors[4];
+
 /* bitmaps */
 EXTERN Pixmap    icon, map, save, powermap;
 EXTERN Pixmap    demo_map[5], demo_mask[5], demo_back, demo_gray;

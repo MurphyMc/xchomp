@@ -2,6 +2,16 @@
 #define EXTERN
 #include "xchomp.h"
 
+static void add_color (int index, int rgb)
+{
+   XColor * c = colors + index;
+   c->red   = (rgb & 0xff0000) >> 8;
+   c->green = (rgb & 0x00ff00) >> 0;
+   c->blue  = (rgb & 0x0000ff) << 8;
+   c->flags = DoRed | DoGreen | DoBlue;
+   XAllocColor(display, DefaultColormap(display, screen), c);
+}
+
 int main(argc, argv)
 int argc;
 char *argv[];
@@ -68,6 +78,12 @@ char *argv[];
       if (event.xany.window != window) continue;
       if (event.type == Expose) break;
    }
+
+   /* set up colors */
+   add_color(0, 0xe00000);
+   add_color(1, 0xcd529b);
+   add_color(2, 0x00a5bc);
+   add_color(3, 0xe47600);
 
    /* set up so we can catch window close */
    wm_delete_window_atom = XInternAtom(display, "WM_DELETE_WINDOW", False);
@@ -334,8 +350,12 @@ void play_game(int fdelay) {
       /*-- Offscreen Figure Overlay -------------------------------*/
 
       for (i = 0; i < num_ghosts; i++)
+      {
+         XSetForeground(display, orGC, colors[i].pixel);
          XCopyPlane(display, ghost[i][count], map, orGC, 0, 0,
             GHOST_SIZE, GHOST_SIZE, ghost_x[i], ghost_y[i], 1);
+      }
+      XSetForeground(display, orGC, black);
       XCopyPlane(display, pac[count], map, orGC, 0, 0,
          GHOST_SIZE, GHOST_SIZE, pac_x, pac_y, 1);
 

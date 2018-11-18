@@ -30,9 +30,12 @@ void get_ready()
       WIN_WIDTH, WIN_HEIGHT, 0, 0);
    XCopyPlane(display, lpac[0], map, orGC, 0, 0, GHOST_SIZE,
       GHOST_SIZE, pac_x, pac_y, 1);
-   for (i = 0; i < num_ghosts; i++)
+   for (i = 0; i < num_ghosts; i++) {
+      XSetForeground(display, orGC, colors[i].pixel);
       XCopyPlane(display, bghost[0], map, orGC, 0, 0, GHOST_SIZE,
          GHOST_SIZE, ghost_x[i], ghost_y[i], 1);
+   }
+   XSetForeground(display, orGC, black);
    XCopyArea(display, map, window, fullcopyGC, 0, 0, WIN_WIDTH,
       WIN_HEIGHT, 0, 0);
    XSync(display, False);

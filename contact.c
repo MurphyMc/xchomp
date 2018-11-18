@@ -131,10 +131,13 @@ int i;
     * the window.  The "copyGC" graphics context, at this point,
     * should contain the necessary clipping information.
     */
-   for (j = 0; j < num_ghosts; j++)
+   for (j = 0; j < num_ghosts; j++) {
+      XSetForeground(display, orGC, colors[j].pixel);
       if (j != i)
          XCopyPlane(display, ghost[j][count], map, orGC, 0, 0,
             GHOST_SIZE, GHOST_SIZE, ghost_x[j], ghost_y[j], 1);
+   }
+   XSetForeground(display, orGC, black);
    XCopyPlane(display, eat_pix[eat_index], map, orGC, 0, 0,
       GHOST_SIZE, GHOST_SIZE, xx, yy, 1);
    XCopyArea(display, map, window, copyGC, 0, 0, WIN_WIDTH,
