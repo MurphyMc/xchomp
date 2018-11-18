@@ -261,7 +261,7 @@ register int i;
    register int   *px = ghost_ix + i, *py = ghost_iy + i;
    static intm    find[3] = { { 0, 1, 2 }, { 3, 3, 4 }, { 5, 6, 7 } };
    int            up, down, left, right;
-   get_dirs(pc, xx>>4, yy>>4, &up, &down, &left, &right);
+   int            tx, ty;
 
    static intm  fxvec[16] = {
                 { 0, 0, 0, 0, 0, 0, 0, 0 },             /* no way to go */
@@ -300,6 +300,7 @@ register int i;
                 { 0, -2, -2, 0, 0, 2, 2, 0 } };         /* any which way */
 
    /* first, find the directions in which this ghost can go */
+   get_dirs(pc, xx>>4, yy>>4, &up, &down, &left, &right);
    if (right || (*px < 0)) dir &= ~0x01;
    if (left || (*px > 0)) dir &= ~0x02;
    if (down || (*py < 0)) dir &= ~0x04;
@@ -307,8 +308,38 @@ register int i;
 
    /* now choose the new direction for the ghost */
    if ((dir != 0x01) && (dir != 0x02) && (dir != 0x04) && (dir != 0x08)) {
-      if ((random() & 0x0f) > 4) {
-         sense = find[sgn(pac_y - yy) + 1][sgn(pac_x - xx) + 1];
+      if ((random() & 0x0f) >= (i == 3 ? 4 : 2)) {
+         if (i == 0) { // Red
+            tx = pac_x; ty = pac_y;
+         }
+         else if (i == 1) { // Pink
+            tx = pac_x; ty = pac_y;
+            if (pac_ix > 0) tx += 2*GHOST_SIZE;
+            else if (pac_ix < 0) tx -= 2*GHOST_SIZE;
+            if (pac_iy > 0) ty += 2*GHOST_SIZE;
+            else if (pac_iy < 0) ty -= 2*GHOST_SIZE;
+         }
+         else if (i == 2) { // Blue
+            tx = pac_x; ty = pac_y;
+            if (pac_ix > 0) tx += 2*GHOST_SIZE;
+            else if (pac_ix < 0) tx -= 2*GHOST_SIZE;
+            if (pac_iy > 0) ty += 2*GHOST_SIZE;
+            else if (pac_iy < 0) ty -= 2*GHOST_SIZE;
+            tx += 2 * (tx - ghost_x[0]);
+            ty += 2 * (ty - ghost_y[0]);
+         }
+         else // Orange
+         {
+            // Less accurate of a translation of traditional behavior, but
+            // we don't currently have scatter mode, so...
+            tx = pac_x; ty = pac_y;
+            if ((abs(tx-ghost_x[3])+abs(ty-ghost_y[3])) < (6*GHOST_SIZE)) {
+              tx = WIN_WIDTH * (ghost_x[3] - pac_x);
+              ty = WIN_HEIGHT * (ghost_y[3] - pac_y);
+            }
+         }
+
+         sense = find[sgn(ty - yy) + 1][sgn(tx - xx) + 1];
          if ((dir&0x02) && ((xx>>4) <= 1) && ((pac_x>>4) > BLOCK_WIDTH - BLOCK_WIDTH/3))
          {
            *px = -1;
